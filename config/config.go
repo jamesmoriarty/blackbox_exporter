@@ -46,6 +46,7 @@ var (
 		TCP:  DefaultTCPProbe,
 		ICMP: DefaultICMPProbe,
 		DNS:  DefaultDNSProbe,
+		GRPCHealthV1: GRPCHealthV1Probe{},
 	}
 
 	// DefaultHTTPProbe set default value for HTTPProbe
@@ -114,12 +115,13 @@ func (sc *SafeConfig) ReloadConfig(confFile string) (err error) {
 }
 
 type Module struct {
-	Prober  string        `yaml:"prober,omitempty"`
-	Timeout time.Duration `yaml:"timeout,omitempty"`
-	HTTP    HTTPProbe     `yaml:"http,omitempty"`
-	TCP     TCPProbe      `yaml:"tcp,omitempty"`
-	ICMP    ICMPProbe     `yaml:"icmp,omitempty"`
-	DNS     DNSProbe      `yaml:"dns,omitempty"`
+	Prober       string            `yaml:"prober,omitempty"`
+	Timeout      time.Duration     `yaml:"timeout,omitempty"`
+	HTTP         HTTPProbe         `yaml:"http,omitempty"`
+	TCP          TCPProbe          `yaml:"tcp,omitempty"`
+	ICMP         ICMPProbe         `yaml:"icmp,omitempty"`
+	DNS          DNSProbe          `yaml:"dns,omitempty"`
+	GRPCHealthV1 GRPCHealthV1Probe `yaml:"grpc_health_v1,omitempty"`
 }
 
 type HTTPProbe struct {
@@ -151,6 +153,10 @@ type QueryResponse struct {
 	Expect   string `yaml:"expect,omitempty"`
 	Send     string `yaml:"send,omitempty"`
 	StartTLS bool   `yaml:"starttls,omitempty"`
+}
+
+type GRPCHealthV1Probe struct {
+	Plaintext bool `yaml:"plaintext,omitempty"`
 }
 
 type TCPProbe struct {
